@@ -1,0 +1,976 @@
+'use client';
+
+import React, { useState, useEffect } from 'react';
+import { ChevronDown, Menu, X, Play, Star, Check, ArrowRight, MessageCircle, Mail, Phone } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+
+const GFXStudioPro = () => {
+  const [activeNav, setActiveNav] = useState('home');
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [scrollY, setScrollY] = useState(0);
+  const [activeTab, setActiveTab] = useState('monthly');
+
+  useEffect(() => {
+    const handleScroll = () => setScrollY(window.scrollY);
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  // Navigation Links
+  const navLinks = [
+    { label: 'Home', id: 'home' },
+    { label: 'Services', id: 'services' },
+    { label: 'Portfolio', id: 'portfolio' },
+    { label: 'Pricing', id: 'pricing' },
+    { label: 'About', id: 'about' },
+    { label: 'Contact', id: 'contact' },
+  ];
+
+  // Services Data
+  const services = [
+    {
+      title: 'Logo Design',
+      description: 'Custom, timeless logos that define your brand identity',
+      icon: '✨',
+      price: 'From $99',
+      features: ['Unlimited Concepts', '2 Revisions', '24-48 Hour Delivery'],
+    },
+    {
+      title: 'Brand Identity',
+      description: 'Complete visual identity systems for consistent branding',
+      icon: '🎨',
+      price: 'From $299',
+      features: ['Logo Design', 'Color Palette', 'Typography Guide', 'Brand Guidelines'],
+    },
+    {
+      title: 'Social Media Graphics',
+      description: 'Engaging posts, stories, and reels for all platforms',
+      icon: '📱',
+      price: 'From $49',
+      features: ['Custom Designs', 'Platform Optimized', 'Unlimited Revisions'],
+    },
+    {
+      title: 'YouTube Thumbnails',
+      description: 'Eye-catching thumbnails that boost click-through rates',
+      icon: '▶️',
+      price: 'From $29',
+      features: ['High CTR Design', 'Fast Delivery', 'Bulk Discount'],
+    },
+    {
+      title: 'Gaming Graphics',
+      description: 'Professional graphics for Twitch, Discord & gaming communities',
+      icon: '🎮',
+      price: 'From $79',
+      features: ['Stream Overlays', 'Emotes', 'Panels & Alerts'],
+    },
+    {
+      title: 'Web Graphics',
+      description: 'Modern graphics optimized for websites and landing pages',
+      icon: '🌐',
+      price: 'From $199',
+      features: ['Hero Sections', 'Icons', 'Illustrations', 'Web Assets'],
+    },
+    {
+      title: 'Business Cards',
+      description: 'Premium printed or digital business card designs',
+      icon: '💼',
+      price: 'From $39',
+      features: ['Custom Design', 'Print Ready', 'Multiple Formats'],
+    },
+    {
+      title: 'Packaging Design',
+      description: 'Eye-catching packaging that stands out on shelves',
+      icon: '📦',
+      price: 'From $149',
+      features: ['Mockup Design', 'Print Files', 'Brand Aligned'],
+    },
+    {
+      title: 'Motion Graphics',
+      description: 'Animated videos and motion design for engagement',
+      icon: '🎬',
+      price: 'From $399',
+      features: ['Custom Animations', 'HD Quality', 'Fast Delivery'],
+    },
+  ];
+
+  // Portfolio Projects
+  const portfolioProjects = [
+    { id: 1, category: 'logos', title: 'Tech Startup Rebrand', image: '🔵', rating: 4.9 },
+    { id: 2, category: 'branding', title: 'Luxury Fashion Identity', image: '💎', rating: 5 },
+    { id: 3, category: 'gaming', title: 'Esports Team Graphics', image: '🎮', rating: 4.8 },
+    { id: 4, category: 'social', title: 'Social Media Campaign', image: '📸', rating: 4.9 },
+    { id: 5, category: 'youtube', title: 'YouTube Channel Branding', image: '▶️', rating: 4.7 },
+    { id: 6, category: 'branding', title: 'E-commerce Platform', image: '🛍️', rating: 5 },
+  ];
+
+  // Testimonials
+  const testimonials = [
+    {
+      name: 'Sarah Mitchell',
+      company: 'Tech Innovations Inc.',
+      rating: 5,
+      text: 'GFX Studio Pro transformed our brand identity. The attention to detail and creative excellence exceeded our expectations.',
+    },
+    {
+      name: 'Marcus Johnson',
+      company: 'Gaming Community',
+      rating: 5,
+      text: 'Outstanding gaming graphics! Our stream engagement increased by 300% after implementing their designs.',
+    },
+    {
+      name: 'Emma Rodriguez',
+      company: 'Fashion Boutique',
+      rating: 5,
+      text: 'Professional, timely, and incredibly creative. Highly recommend for any design needs!',
+    },
+  ];
+
+  // Pricing Plans
+  const pricingPlans = [
+    {
+      name: 'Starter',
+      monthlyPrice: 199,
+      yearlyPrice: 1990,
+      features: [
+        '1 Design per month',
+        '2 Revisions',
+        '48-72 Hour Delivery',
+        'Email Support',
+      ],
+    },
+    {
+      name: 'Professional',
+      monthlyPrice: 499,
+      yearlyPrice: 4990,
+      popular: true,
+      features: [
+        '3 Designs per month',
+        '5 Revisions',
+        '24 Hour Delivery',
+        'Priority Email Support',
+        'Brand Consistency Manager',
+      ],
+    },
+    {
+      name: 'Enterprise',
+      monthlyPrice: 999,
+      yearlyPrice: 9990,
+      features: [
+        'Unlimited Designs',
+        'Unlimited Revisions',
+        'Same Day Delivery',
+        'Dedicated Designer',
+        '24/7 Phone Support',
+        'Custom Analytics',
+      ],
+    },
+  ];
+
+  // FAQ
+  const faqs = [
+    {
+      question: 'What is your turnaround time?',
+      answer: 'Standard delivery is 48-72 hours. We offer 24-hour and same-day options for rush requests.',
+    },
+    {
+      question: 'Do you offer revisions?',
+      answer: 'Yes! All packages include revisions. The number varies by plan, from 2 to unlimited.',
+    },
+    {
+      question: 'What file formats do you provide?',
+      answer: 'We deliver in all standard formats: PSD, AI, PNG, JPG, SVG, and PDF. Custom formats available upon request.',
+    },
+    {
+      question: 'Can you work with my existing brand guidelines?',
+      answer: 'Absolutely! We specialize in maintaining brand consistency across all designs.',
+    },
+  ];
+
+  return (
+    <div className="w-full bg-black text-white overflow-hidden">
+      {/* Background Gradient Orbs */}
+      <div className="fixed inset-0 overflow-hidden pointer-events-none">
+        <motion.div
+          className="absolute w-96 h-96 bg-blue-500 rounded-full mix-blend-screen filter blur-3xl opacity-20"
+          animate={{
+            x: [0, 50, -30, 0],
+            y: [0, -50, 30, 0],
+          }}
+          transition={{ duration: 20, repeat: Infinity }}
+          style={{ top: '10%', right: '10%' }}
+        />
+        <motion.div
+          className="absolute w-96 h-96 bg-blue-600 rounded-full mix-blend-screen filter blur-3xl opacity-15"
+          animate={{
+            x: [0, -30, 50, 0],
+            y: [0, 50, -30, 0],
+          }}
+          transition={{ duration: 25, repeat: Infinity }}
+          style={{ bottom: '10%', left: '5%' }}
+        />
+      </div>
+
+      {/* Navigation */}
+      <motion.header
+        className="fixed top-0 left-0 right-0 z-50 backdrop-blur-md bg-black/80 border-b border-blue-500/20"
+        initial={{ y: -100 }}
+        animate={{ y: 0 }}
+        transition={{ duration: 0.5 }}
+      >
+        <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+          <motion.h1
+            className="text-2xl font-bold bg-gradient-to-r from-white to-blue-400 bg-clip-text text-transparent"
+            whileHover={{ scale: 1.05 }}
+          >
+            GFX Studio Pro
+          </motion.h1>
+
+          {/* Desktop Nav */}
+          <div className="hidden md:flex gap-8 items-center">
+            {navLinks.map((link) => (
+              <motion.button
+                key={link.id}
+                onClick={() => setActiveNav(link.id)}
+                className={`relative text-sm font-medium transition-colors ${
+                  activeNav === link.id ? 'text-blue-400' : 'text-gray-300 hover:text-white'
+                }`}
+                whileHover={{ y: -2 }}
+              >
+                {link.label}
+                {activeNav === link.id && (
+                  <motion.div
+                    className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-blue-500 to-blue-400"
+                    layoutId="navbar-indicator"
+                  />
+                )}
+              </motion.button>
+            ))}
+          </div>
+
+          <div className="flex items-center gap-4">
+            <motion.button
+              className="hidden sm:block px-6 py-2 bg-blue-600 hover:bg-blue-700 rounded-lg font-medium text-sm transition-all hover:shadow-lg hover:shadow-blue-500/50"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              Get Started
+            </motion.button>
+
+            {/* Mobile Menu Button */}
+            <button
+              className="md:hidden p-2 hover:bg-white/10 rounded-lg transition-colors"
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            >
+              {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+            </button>
+          </div>
+        </div>
+
+        {/* Mobile Menu */}
+        <AnimatePresence>
+          {mobileMenuOpen && (
+            <motion.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: 'auto' }}
+              exit={{ opacity: 0, height: 0 }}
+              className="md:hidden bg-black/95 border-t border-blue-500/20"
+            >
+              <div className="flex flex-col gap-4 p-6">
+                {navLinks.map((link) => (
+                  <button
+                    key={link.id}
+                    onClick={() => {
+                      setActiveNav(link.id);
+                      setMobileMenuOpen(false);
+                    }}
+                    className="text-left text-gray-300 hover:text-blue-400 transition-colors"
+                  >
+                    {link.label}
+                  </button>
+                ))}
+                <motion.button
+                  className="w-full mt-2 px-6 py-2 bg-blue-600 hover:bg-blue-700 rounded-lg font-medium transition-all"
+                  whileTap={{ scale: 0.95 }}
+                >
+                  Get Started
+                </motion.button>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </motion.header>
+
+      {/* Hero Section */}
+      <section className="relative min-h-screen flex items-center justify-center pt-20 px-6 overflow-hidden">
+        <motion.div
+          className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-blue-500/5"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 1 }}
+        />
+
+        <div className="relative z-10 text-center max-w-4xl mx-auto">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            className="mb-6"
+          >
+            <span className="inline-block px-4 py-2 rounded-full bg-blue-500/20 border border-blue-500/50 text-blue-300 text-sm font-medium">
+              ✨ Award-Winning Design Studio
+            </span>
+          </motion.div>
+
+          <motion.h1
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.1 }}
+            className="text-5xl md:text-7xl font-bold mb-6 leading-tight"
+          >
+            Professional Graphic Design Services
+            <br />
+            <span className="bg-gradient-to-r from-blue-400 to-blue-600 bg-clip-text text-transparent">
+              That Elevate Your Brand
+            </span>
+          </motion.h1>
+
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            className="text-xl text-gray-300 mb-12 max-w-2xl mx-auto"
+          >
+            Custom logos, social media graphics, thumbnails, banners, branding, and visual identity solutions that transform your vision into reality.
+          </motion.p>
+
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.3 }}
+            className="flex flex-col sm:flex-row gap-6 justify-center mb-16"
+          >
+            <motion.button
+              className="px-8 py-4 bg-gradient-to-r from-blue-600 to-blue-500 rounded-lg font-bold text-white shadow-lg shadow-blue-500/50 hover:shadow-blue-500/70 transition-all text-lg"
+              whileHover={{ scale: 1.05, y: -2 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              View Portfolio
+              <ArrowRight className="inline ml-2" size={20} />
+            </motion.button>
+            <motion.button
+              className="px-8 py-4 border-2 border-blue-500/50 hover:border-blue-400 rounded-lg font-bold text-blue-300 hover:text-blue-200 transition-all text-lg backdrop-blur-sm bg-white/5 hover:bg-white/10"
+              whileHover={{ scale: 1.05, y: -2 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              Get Started
+            </motion.button>
+          </motion.div>
+
+          {/* Trust Badges */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.8, delay: 0.4 }}
+            className="flex flex-wrap justify-center gap-8 text-sm text-gray-400 mb-16"
+          >
+            <div className="flex items-center gap-2">
+              <div className="w-2 h-2 bg-blue-500 rounded-full" />
+              500+ Projects Completed
+            </div>
+            <div className="flex items-center gap-2">
+              <div className="w-2 h-2 bg-blue-500 rounded-full" />
+              4.9/5 Average Rating
+            </div>
+            <div className="flex items-center gap-2">
+              <div className="w-2 h-2 bg-blue-500 rounded-full" />
+              10+ Years Experience
+            </div>
+          </motion.div>
+
+          {/* Scroll Indicator */}
+          <motion.div
+            animate={{ y: [0, 10, 0] }}
+            transition={{ duration: 2, repeat: Infinity }}
+            className="flex justify-center"
+          >
+            <ChevronDown size={32} className="text-blue-500" />
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Featured Stats */}
+      <section className="relative py-20 px-6 border-t border-blue-500/20">
+        <div className="max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8">
+          {[
+            { number: '500+', label: 'Projects Delivered' },
+            { number: '200+', label: 'Happy Clients' },
+            { number: '50+', label: 'Designers' },
+            { number: '10+', label: 'Years Experience' },
+          ].map((stat, i) => (
+            <motion.div
+              key={i}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: i * 0.1 }}
+              className="text-center p-6 rounded-xl backdrop-blur-md bg-gradient-to-br from-blue-500/10 to-blue-600/5 border border-blue-500/20"
+            >
+              <h3 className="text-3xl md:text-4xl font-bold text-blue-400 mb-2">
+                {stat.number}
+              </h3>
+              <p className="text-gray-400">{stat.label}</p>
+            </motion.div>
+          ))}
+        </div>
+      </section>
+
+      {/* Services Section */}
+      <section id="services" className="relative py-32 px-6 border-t border-blue-500/20">
+        <div className="max-w-7xl mx-auto">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            className="text-center mb-16"
+          >
+            <h2 className="text-4xl md:text-5xl font-bold mb-6">
+              Our <span className="text-blue-400">Services</span>
+            </h2>
+            <p className="text-gray-400 max-w-2xl mx-auto text-lg">
+              Comprehensive graphic design solutions tailored to elevate your brand and engage your audience.
+            </p>
+          </motion.div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {services.map((service, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: i * 0.05 }}
+                whileHover={{ y: -8 }}
+                className="group p-8 rounded-2xl backdrop-blur-md bg-gradient-to-br from-gray-900/80 to-gray-900/40 border border-blue-500/20 hover:border-blue-500/50 transition-all hover:shadow-lg hover:shadow-blue-500/20"
+              >
+                <div className="text-4xl mb-4 group-hover:scale-110 transition-transform">
+                  {service.icon}
+                </div>
+                <h3 className="text-xl font-bold mb-2 group-hover:text-blue-400 transition-colors">
+                  {service.title}
+                </h3>
+                <p className="text-gray-400 text-sm mb-4">{service.description}</p>
+
+                <div className="mb-6 space-y-2">
+                  {service.features.map((feature, j) => (
+                    <div key={j} className="flex items-center gap-2 text-sm text-gray-300">
+                      <Check size={16} className="text-blue-500" />
+                      {feature}
+                    </div>
+                  ))}
+                </div>
+
+                <div className="flex items-center justify-between">
+                  <span className="font-semibold text-blue-400">{service.price}</span>
+                  <motion.button
+                    whileHover={{ x: 5 }}
+                    className="text-blue-400 hover:text-blue-300 transition-colors"
+                  >
+                    <ArrowRight size={20} />
+                  </motion.button>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Portfolio Preview */}
+      <section id="portfolio" className="relative py-32 px-6 border-t border-blue-500/20">
+        <div className="max-w-7xl mx-auto">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            className="text-center mb-16"
+          >
+            <h2 className="text-4xl md:text-5xl font-bold mb-6">
+              Featured <span className="text-blue-400">Portfolio</span>
+            </h2>
+            <p className="text-gray-400 max-w-2xl mx-auto text-lg">
+              Showcase of our finest work across diverse industries and design categories.
+            </p>
+          </motion.div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {portfolioProjects.map((project, i) => (
+              <motion.div
+                key={project.id}
+                initial={{ opacity: 0, scale: 0.9 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.5, delay: i * 0.05 }}
+                whileHover={{ y: -8 }}
+                className="group relative overflow-hidden rounded-2xl aspect-video cursor-pointer"
+              >
+                <div className="absolute inset-0 bg-gradient-to-br from-blue-600/40 to-blue-900/40 backdrop-blur-sm group-hover:from-blue-500/50 group-hover:to-blue-900/50 transition-all flex items-center justify-center text-6xl">
+                  {project.image}
+                </div>
+
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  whileHover={{ opacity: 1, y: 0 }}
+                  className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent flex flex-col justify-between p-6"
+                >
+                  <div></div>
+                  <div>
+                    <h3 className="text-xl font-bold mb-2">{project.title}</h3>
+                    <div className="flex items-center gap-1">
+                      {[...Array(5)].map((_, i) => (
+                        <Star
+                          key={i}
+                          size={16}
+                          className={i < Math.floor(project.rating) ? 'fill-yellow-400 text-yellow-400' : 'text-gray-600'}
+                        />
+                      ))}
+                      <span className="text-sm text-gray-400 ml-2">{project.rating}</span>
+                    </div>
+                  </div>
+                </motion.div>
+              </motion.div>
+            ))}
+          </div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.3 }}
+            className="text-center mt-16"
+          >
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="px-8 py-4 bg-blue-600 hover:bg-blue-700 rounded-lg font-bold transition-all"
+            >
+              View Full Portfolio
+              <ArrowRight className="inline ml-2" size={20} />
+            </motion.button>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Why Choose Us */}
+      <section className="relative py-32 px-6 border-t border-blue-500/20">
+        <div className="max-w-7xl mx-auto">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            className="text-center mb-16"
+          >
+            <h2 className="text-4xl md:text-5xl font-bold mb-6">
+              Why Choose <span className="text-blue-400">GFX Studio Pro</span>
+            </h2>
+          </motion.div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            {[
+              {
+                title: 'Expert Designers',
+                description: 'Our team consists of award-winning designers with 10+ years of industry experience.',
+              },
+              {
+                title: 'Fast Turnaround',
+                description: '48-hour standard delivery with same-day rush options available.',
+              },
+              {
+                title: 'Unlimited Revisions',
+                description: 'Enterprise plans include unlimited revisions until you\'re 100% satisfied.',
+              },
+              {
+                title: 'Competitive Pricing',
+                description: 'Premium quality designs at prices that fit any budget.',
+              },
+              {
+                title: 'Brand Consistency',
+                description: 'We maintain consistent branding across all your design assets.',
+              },
+              {
+                title: '24/7 Support',
+                description: 'Dedicated support team ready to assist you anytime, anywhere.',
+              },
+            ].map((item, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, x: i % 2 === 0 ? -20 : 20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.5, delay: i * 0.05 }}
+                className="flex gap-6 p-8 rounded-xl backdrop-blur-md bg-gradient-to-br from-blue-500/10 to-blue-600/5 border border-blue-500/20 hover:border-blue-500/50 transition-all"
+              >
+                <div className="flex-shrink-0 w-12 h-12 rounded-lg bg-blue-500/20 flex items-center justify-center">
+                  <Check className="text-blue-400" size={24} />
+                </div>
+                <div>
+                  <h3 className="text-lg font-bold mb-2">{item.title}</h3>
+                  <p className="text-gray-400">{item.description}</p>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Pricing Section */}
+      <section id="pricing" className="relative py-32 px-6 border-t border-blue-500/20">
+        <div className="max-w-7xl mx-auto">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            className="text-center mb-16"
+          >
+            <h2 className="text-4xl md:text-5xl font-bold mb-6">
+              Flexible <span className="text-blue-400">Pricing Plans</span>
+            </h2>
+
+            {/* Billing Toggle */}
+            <div className="flex justify-center gap-4 mt-8">
+              {['monthly', 'yearly'].map((tab) => (
+                <motion.button
+                  key={tab}
+                  onClick={() => setActiveTab(tab)}
+                  className={`px-6 py-3 rounded-lg font-bold transition-all ${
+                    activeTab === tab
+                      ? 'bg-blue-600 text-white'
+                      : 'bg-gray-900 text-gray-400 hover:text-white'
+                  }`}
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  {tab === 'monthly' ? 'Monthly' : 'Yearly (Save 17%)'}
+                </motion.button>
+              ))}
+            </div>
+          </motion.div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {pricingPlans.map((plan, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: i * 0.1 }}
+                whileHover={{ y: -8 }}
+                className={`relative p-8 rounded-2xl backdrop-blur-md border transition-all ${
+                  plan.popular
+                    ? 'bg-gradient-to-br from-blue-600/40 to-blue-900/40 border-blue-400/60 shadow-lg shadow-blue-500/30'
+                    : 'bg-gradient-to-br from-gray-900/80 to-gray-900/40 border-blue-500/20 hover:border-blue-500/50'
+                }`}
+              >
+                {plan.popular && (
+                  <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 px-4 py-1 bg-blue-600 rounded-full text-sm font-bold text-white">
+                    Most Popular
+                  </div>
+                )}
+
+                <h3 className="text-2xl font-bold mb-2">{plan.name}</h3>
+                <div className="mb-6">
+                  <span className="text-4xl font-bold">
+                    ${activeTab === 'monthly' ? plan.monthlyPrice : Math.floor(plan.yearlyPrice / 12)}
+                  </span>
+                  <span className="text-gray-400">/month</span>
+                </div>
+
+                <ul className="space-y-4 mb-8">
+                  {plan.features.map((feature, j) => (
+                    <li key={j} className="flex items-center gap-3 text-gray-300">
+                      <Check size={20} className="text-blue-400 flex-shrink-0" />
+                      {feature}
+                    </li>
+                  ))}
+                </ul>
+
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  className={`w-full py-3 rounded-lg font-bold transition-all ${
+                    plan.popular
+                      ? 'bg-blue-600 hover:bg-blue-700 text-white'
+                      : 'bg-white/10 hover:bg-white/20 text-blue-300 hover:text-blue-200 border border-blue-500/50'
+                  }`}
+                >
+                  Get Started
+                </motion.button>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Testimonials */}
+      <section className="relative py-32 px-6 border-t border-blue-500/20">
+        <div className="max-w-7xl mx-auto">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            className="text-center mb-16"
+          >
+            <h2 className="text-4xl md:text-5xl font-bold mb-6">
+              What Our <span className="text-blue-400">Clients Say</span>
+            </h2>
+          </motion.div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {testimonials.map((testimonial, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: i * 0.1 }}
+                className="p-8 rounded-2xl backdrop-blur-md bg-gradient-to-br from-gray-900/80 to-gray-900/40 border border-blue-500/20 hover:border-blue-500/50 transition-all"
+              >
+                <div className="flex gap-1 mb-4">
+                  {[...Array(testimonial.rating)].map((_, j) => (
+                    <Star key={j} size={20} className="fill-yellow-400 text-yellow-400" />
+                  ))}
+                </div>
+
+                <p className="text-gray-300 mb-6 italic">"{testimonial.text}"</p>
+
+                <div className="border-t border-gray-700 pt-4">
+                  <h4 className="font-bold text-white">{testimonial.name}</h4>
+                  <p className="text-sm text-gray-400">{testimonial.company}</p>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* FAQ Section */}
+      <section className="relative py-32 px-6 border-t border-blue-500/20">
+        <div className="max-w-4xl mx-auto">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            className="text-center mb-16"
+          >
+            <h2 className="text-4xl md:text-5xl font-bold mb-6">
+              Frequently Asked <span className="text-blue-400">Questions</span>
+            </h2>
+          </motion.div>
+
+          <div className="space-y-4">
+            {faqs.map((faq, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: i * 0.05 }}
+                className="p-6 rounded-xl backdrop-blur-md bg-gradient-to-br from-gray-900/80 to-gray-900/40 border border-blue-500/20 hover:border-blue-500/50 transition-all"
+              >
+                <h3 className="font-bold text-lg text-white mb-3">{faq.question}</h3>
+                <p className="text-gray-400">{faq.answer}</p>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* CTA Section */}
+      <section className="relative py-32 px-6 border-t border-blue-500/20">
+        <motion.div
+          className="max-w-4xl mx-auto text-center p-12 rounded-3xl backdrop-blur-md bg-gradient-to-br from-blue-600/30 to-blue-900/30 border border-blue-500/50"
+          initial={{ opacity: 0, scale: 0.9 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.5 }}
+        >
+          <h2 className="text-4xl md:text-5xl font-bold mb-6">
+            Ready to Transform Your Brand?
+          </h2>
+          <p className="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
+            Join 200+ satisfied clients who've elevated their brand with our design expertise.
+          </p>
+
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="px-8 py-4 bg-blue-600 hover:bg-blue-700 rounded-lg font-bold text-white transition-all shadow-lg shadow-blue-500/50"
+            >
+              Start Your Project
+            </motion.button>
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="px-8 py-4 border-2 border-blue-400 text-blue-300 hover:text-blue-200 hover:border-blue-300 rounded-lg font-bold transition-all"
+            >
+              Schedule Consultation
+            </motion.button>
+          </div>
+        </motion.div>
+      </section>
+
+      {/* Contact Section */}
+      <section id="contact" className="relative py-32 px-6 border-t border-blue-500/20">
+        <div className="max-w-7xl mx-auto">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            className="text-center mb-16"
+          >
+            <h2 className="text-4xl md:text-5xl font-bold mb-6">
+              Get In <span className="text-blue-400">Touch</span>
+            </h2>
+          </motion.div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
+            {/* Contact Form */}
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.5 }}
+              className="space-y-4"
+            >
+              <input
+                type="text"
+                placeholder="Your Name"
+                className="w-full px-6 py-3 rounded-lg bg-gray-900/50 border border-blue-500/20 text-white placeholder-gray-500 focus:border-blue-500 outline-none transition-colors"
+              />
+              <input
+                type="email"
+                placeholder="Your Email"
+                className="w-full px-6 py-3 rounded-lg bg-gray-900/50 border border-blue-500/20 text-white placeholder-gray-500 focus:border-blue-500 outline-none transition-colors"
+              />
+              <textarea
+                placeholder="Your Message"
+                rows={5}
+                className="w-full px-6 py-3 rounded-lg bg-gray-900/50 border border-blue-500/20 text-white placeholder-gray-500 focus:border-blue-500 outline-none transition-colors resize-none"
+              />
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="w-full px-8 py-3 bg-blue-600 hover:bg-blue-700 rounded-lg font-bold text-white transition-all"
+              >
+                Send Message
+              </motion.button>
+            </motion.div>
+
+            {/* Contact Info */}
+            <motion.div
+              initial={{ opacity: 0, x: 20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.5 }}
+              className="space-y-6"
+            >
+              {[
+                {
+                  icon: <Mail size={24} />,
+                  label: 'Email',
+                  value: 'contact@gfxstudiopro.com',
+                },
+                {
+                  icon: <Phone size={24} />,
+                  label: 'Phone',
+                  value: '+1 (555) 123-4567',
+                },
+                {
+                  icon: <MessageCircle size={24} />,
+                  label: 'WhatsApp',
+                  value: '+1 (555) 123-4567',
+                },
+              ].map((item, i) => (
+                <div key={i} className="flex gap-4 p-6 rounded-lg backdrop-blur-md bg-gradient-to-br from-gray-900/80 to-gray-900/40 border border-blue-500/20">
+                  <div className="text-blue-400">{item.icon}</div>
+                  <div>
+                    <p className="text-sm text-gray-400">{item.label}</p>
+                    <p className="font-bold text-white">{item.value}</p>
+                  </div>
+                </div>
+              ))}
+
+              {/* Social Links */}
+              <div className="pt-6 border-t border-blue-500/20">
+                <p className="text-sm text-gray-400 mb-4">Follow Us</p>
+                <div className="flex gap-4">
+                  {['Twitter', 'Instagram', 'LinkedIn', 'Discord'].map((social) => (
+                    <motion.a
+                      key={social}
+                      href="#"
+                      whileHover={{ scale: 1.1, y: -4 }}
+                      className="w-12 h-12 rounded-lg bg-blue-500/20 hover:bg-blue-500/40 border border-blue-500/50 flex items-center justify-center text-blue-400 hover:text-blue-300 transition-all"
+                    >
+                      {social[0]}
+                    </motion.a>
+                  ))}
+                </div>
+              </div>
+            </motion.div>
+          </div>
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer className="relative border-t border-blue-500/20 bg-black/50 backdrop-blur-md">
+        <div className="max-w-7xl mx-auto px-6 py-12">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+            <div>
+              <h3 className="text-xl font-bold text-white mb-4">GFX Studio Pro</h3>
+              <p className="text-gray-400 text-sm">
+                Premier graphic design services for brands that demand excellence.
+              </p>
+            </div>
+            {[
+              {
+                title: 'Services',
+                links: ['Logo Design', 'Branding', 'Social Media', 'Gaming Graphics'],
+              },
+              {
+                title: 'Company',
+                links: ['About Us', 'Portfolio', 'Blog', 'Careers'],
+              },
+              {
+                title: 'Legal',
+                links: ['Privacy Policy', 'Terms of Service', 'Cookie Policy'],
+              },
+            ].map((section, i) => (
+              <div key={i}>
+                <h4 className="font-bold text-white mb-4">{section.title}</h4>
+                <ul className="space-y-2">
+                  {section.links.map((link, j) => (
+                    <li key={j}>
+                      <a
+                        href="#"
+                        className="text-gray-400 hover:text-blue-400 transition-colors text-sm"
+                      >
+                        {link}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+
+          <div className="border-t border-blue-500/20 pt-8 flex flex-col md:flex-row items-center justify-between">
+            <p className="text-gray-400 text-sm">
+              © 2024 GFX Studio Pro. All rights reserved.
+            </p>
+            <div className="flex gap-6 mt-4 md:mt-0">
+              {['Privacy', 'Terms', 'Cookies'].map((item) => (
+                <a
+                  key={item}
+                  href="#"
+                  className="text-gray-400 hover:text-blue-400 transition-colors text-sm"
+                >
+                  {item}
+                </a>
+              ))}
+            </div>
+          </div>
+        </div>
+      </footer>
+    </div>
+  );
+};
+
+export default GFXStudioPro;
